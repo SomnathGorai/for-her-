@@ -1,1 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Special Question For You</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #ffe6eb;
+            display: flex;
+            justify-content: center;
+            align-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(255, 105, 180, 0.2);
+            max-width: 400px;
+            width: 90%;
+            position: relative;
+        }
+
+        h1 {
+            color: #d13b65;
+            margin-bottom: 30px;
+            font-size: 2rem;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            min-height: 80px;
+            position: relative;
+        }
+
+        button {
+            padding: 12px 28px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        #yesBtn {
+            background-color: #ff4d79;
+            color: white;
+            z-index: 10;
+        }
+
+        #yesBtn:hover {
+            background-color: #ff1a53;
+            transform: scale(1.05);
+        }
+
+        #noBtn {
+            background-color: #a0a0a0;
+            color: white;
+        }
+
+        /* Celebration Screen Styles */
+        .hidden {
+            display: none !important;
+        }
+
+        .celebration h1 {
+            color: #ff1a53;
+        }
+
+        /* SVG Doll Styling */
+        .doll-container {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: bounce 2s infinite ease-in-out;
+        }
+
+        .flowers {
+            font-size: 40px;
+            margin-top: 10px;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Question Screen -->
+    <div id="questionScreen" class="container">
+        <h1 id="questionText">Do you love me? 🥺</h1>
+        <div class="btn-container" id="btnContainer">
+            <button id="yesBtn" onclick="sayYes()">Yes</button>
+            <button id="noBtn" onclick="shrinkNo()">No</button>
+        </div>
+    </div>
+
+    <!-- Success Screen (Doll & Flowers) -->
+    <div id="successScreen" class="container hidden celebration">
+        <!-- Cute Doll Emoji/Symbol Assembly -->
+        <div class="doll-container">👧🏻</div>
+        <h1>Yay! I love you too! ❤️</h1>
+        <!-- Flowers -->
+        <div class="flowers">🌸💐🌹🌻🌷</div>
+    </div>
+
+    <script>
+        let noClickCount = 0;
+        let noScale = 1.0;
+        const maxClicks = 10;
+
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+        const btnContainer = document.getElementById('btnContainer');
+
+        function shrinkNo() {
+            noClickCount++;
+
+            if (noClickCount < maxClicks) {
+                // Shrink the button slightly each time
+                noScale -= 0.08; 
+                noBtn.style.transform = `scale(${noScale})`;
+                
+                // Optional: Make the Yes button grow slightly to tease them!
+                yesBtn.style.transform = `scale(${1 + (noClickCount * 0.05)})`;
+            } else {
+                // On the 10th click, hide its original position and force it under 'Yes'
+                noBtn.style.transform = "scale(0.4)"; // Make it tiny
+                noBtn.style.position = "absolute";
+                
+                // Position it directly underneath the Yes button
+                noBtn.style.top = "60px"; 
+                noBtn.style.left = "50%";
+                noBtn.style.transform += " translateX(-50%)";
+                
+                // Change the text to make it clear they have no choice
+                noBtn.innerText = "Fine, Yes"; 
+            }
+        }
+
+        function sayYes() {
+            // Hide the question screen and show the cute success screen
+            document.getElementById('questionScreen').classList.add('hidden');
+            document.getElementById('successScreen').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
 
